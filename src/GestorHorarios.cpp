@@ -5,11 +5,9 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <sstream>
 #include <set>
 #include <algorithm>
 #include <functional>
-#include <error.h>
 #include "../include/GestorHorarios.h"
 #include "../include/utils.h"
 
@@ -19,16 +17,7 @@ GestorHorarios::GestorHorarios() {
     read_classes("../data/classes.csv");
     read_students("../data/students_classes.csv");
 
-    std::vector<Estudante> result;
-    std::vector<Turma> aa = {Turma("L.EIC001","1LEIC06")};
-    std::vector<Turma> ar;
-    Estudante x = *estudantes.begin();
-    Pedido p(&x, aa, ar);
-    std::cout << x.getHorario().size()<< std::endl;
-
-    processPedido(p);
-
-    std::cout << x.getHorario().size()<< std::endl;
+    print_list(estudantes);
 
 }
 
@@ -107,43 +96,6 @@ void GestorHorarios::read_classes(std::string filename) {
         Aula aula(fields[2], std::stod(fields[3]),std::stod(fields[4]),fields[5]);
         it.first->addAula(aula);
     }
-}
-
-void GestorHorarios::list_sort_getcomp(int i, std::function<bool(const Estudante &, const Estudante &)> &cmp) {
-    switch(i){
-        case 0: cmp = [    ](const Estudante &p1, const Estudante &p2){ return p1.get_codigo() < p2.get_codigo(); }; break;
-        case 1: cmp = [    ](const Estudante &p1, const Estudante &p2){ return p1.get_nome() < p2.get_nome(); }; break;
-        case 2: cmp = [    ](const Estudante &p1, const Estudante &p2){ return (p1.getHorario().size() < p2.getHorario().size()); }; break;
-        default: throw std::invalid_argument("NUM outside range");
-    }
-}
-
-void GestorHorarios::list_sort_getcomp(int i, std::function<bool(const UCTurma&, const UCTurma&)> &cmp) {
-    switch(i){
-        case 0: cmp = [    ](const UCTurma &p1, const UCTurma &p2){ return p1 < p2;}; break;
-        case 1: cmp = [    ](const UCTurma &p1, const UCTurma &p2){ return p1.getInscritos() < p2.getInscritos(); }; break;
-        default: throw std::invalid_argument("NUM outside range");
-    }
-}
-
-void GestorHorarios::list_filter_getvalid(int i, const std::string &str, std::function<bool(const UCTurma &)> &cmp) {
-    switch(i) {
-        case 0 : cmp = [str](const UCTurma &p) { return (std::string(p.getCodUC()).find(str) != std::string::npos); }; break;
-        case 1 : cmp = [str](const UCTurma &p) { return (std::string(p.getCodTurma()).find(str) != std::string::npos); }; break;
-        default: throw std::invalid_argument("NUM outside range");
-    }
-}
-
-void GestorHorarios::list_filter_getvalid(int i, const std::string &str, std::function<bool(const Estudante &)> &cmp) {
-    switch(i) {
-        case 0 : cmp = [str](const Estudante &p) { return (std::string(p.get_codigo()).find(str) != std::string::npos); }; break;
-        case 1 : cmp = [str](const Estudante &p) { return (std::string(p.get_nome()).find(str) != std::string::npos); }; break;
-        default: throw std::invalid_argument("NUM outside range");
-    }
-}
-
-void GestorHorarios::list_filter_getvalid(int i, const Turma &trm, std::function<bool(const Estudante &)> &cmp) {
-    cmp = [trm](const Estudante &p) {return p.hasClass(trm);};
 }
 
 template<class T>
@@ -277,4 +229,10 @@ void GestorHorarios::processPedido(Pedido &p) {
     if(canEnroll(p) && isCompatible(p)){
         p.estudante->setHorario(p.getCandidate());
     }
+}
+
+
+
+void GestorHorarios::print_list(std::vector<UCTurma>) {
+
 }

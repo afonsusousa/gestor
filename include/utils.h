@@ -24,6 +24,8 @@ namespace utils {
     template<class T, class Compare> void mergesort(std::vector<T> &v, const size_t &l, const size_t &r, Compare comp);
     template<class T> bool input(const std::string &msg, T &object, std::istream &is, std::ostream &os);
     template<class T, class Func> bool input(const std::string &msg, Func f , T &object, std::istream &is, std::ostream &os);
+    std::string ljust(std::string s, size_t sz);
+    std::string rjust(std::string s, size_t sz);
 
     template<class T, class Valid> std::vector<T> utils::filter(const std::vector<T> &v, Valid valid){
         std::vector<T> ret;

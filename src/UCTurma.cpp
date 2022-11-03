@@ -41,3 +41,8 @@ int UCTurma::getInscritos() const {
 UCTurma::UCTurma(Turma turma) : codUC(turma.getCodUC()), codTurma(turma.getCodTurma()){
 
 }
+
+int UCTurma::desinscrever() const {
+    inscritos--;
+    return inscritos;
+}

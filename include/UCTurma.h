@@ -20,6 +20,7 @@ public:
     std::string getCodUC() const;
     std::string getCodTurma() const;
     int inscrever() const;
+    int desinscrever() const;
     int getInscritos() const;
     bool operator<(const UCTurma &e) const;
     bool operator==(const UCTurma &e) const;

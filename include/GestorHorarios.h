@@ -11,6 +11,7 @@
 #include "UCTurmaSchedule.h"
 #include "UC.h"
 #include "Pedido.h"
+#include <set>
 
 class GestorHorarios {
 public:
@@ -36,6 +37,9 @@ private:
     bool canEnroll(const Pedido &p);
     std::vector<Aula> getAulas(const std::vector<Turma> &t) const;
     std::vector<UCTurma> getTurmas(std::string codUC);
+    void print_list(const std::set<Estudante> &v);
+    void print_list(std::vector<UCTurma>);
+    void print_list(std::vector<Aula>);
 
     int maxDifference(const std::vector<UCTurma> &v) const;
 

@@ -10,7 +10,7 @@
 #include "../include/GestorHorarios.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    std::cout << "Hello, World! Hope for the best!" << std::endl;
 
     GestorHorarios g;
     return 0;

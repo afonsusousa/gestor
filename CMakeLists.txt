@@ -3,7 +3,8 @@ project(gestor)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(gestor src/GestorHorarios.cpp
+add_executable(gestor
+        src/GestorHorarios.cpp
         src/utils.cpp
         src/UCTurmaSchedule.cpp
         src/UCTurma.cpp
@@ -12,5 +13,7 @@ add_executable(gestor src/GestorHorarios.cpp
         src/Pedido.cpp
         src/main.cpp
         src/Estudante.cpp
-        src/Aula.cpp)
+        src/Aula.cpp
+        src/GestorHorarios_display.cpp
+        src/GestorHorarios_lists.cpp)
 include_directories("include")
