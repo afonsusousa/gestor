@@ -1,0 +1,4 @@
+src/gesto
+cmake-build-debug/*
+build/*
+.idea/
