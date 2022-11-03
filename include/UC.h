@@ -13,9 +13,9 @@ public:
     UC();
     UC(std::string codigo);
     std::string codigo;
-    mutable std::vector<UCTurma> turmas;
+    mutable std::vector<UCTurma*> turmas;
     bool operator<(const UC &u) const;
-    void addTurma(const UCTurma &uct) const;
+    void addTurma(UCTurma *uct) const;
 };
 
 

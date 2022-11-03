@@ -20,7 +20,6 @@ public:
     std::set<UCTurma> turmas;
     std::queue<Pedido> pedidos;
 
-
 private:
 
 
@@ -33,7 +32,7 @@ private:
     template<class T> void list(std::vector<T> &v) const;
 
     void processPedido(Pedido &p);
-    bool isCompatible(Pedido &p, std::vector<Turma> &res);
+    bool isCompatible(Pedido &p);
     bool canEnroll(const Pedido &p);
     std::vector<Aula> getAulas(const std::vector<Turma> &t) const;
     std::vector<UCTurma> getTurmas(std::string codUC);

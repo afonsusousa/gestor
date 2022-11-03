@@ -20,10 +20,10 @@ GestorHorarios::GestorHorarios() {
     read_students("../data/students_classes.csv");
 
     std::vector<Estudante> result;
-    std::vector<Turma> ar = {Turma("L.EIC001","1LEIC05")};
-    std::vector<Turma> aa;
+    std::vector<Turma> aa = {Turma("L.EIC001","1LEIC06")};
+    std::vector<Turma> ar;
     Estudante x = *estudantes.begin();
-
+    Pedido p(&x, aa, ar);
     std::cout << x.getHorario().size()<< std::endl;
 
     processPedido(p);
@@ -109,7 +109,6 @@ void GestorHorarios::read_classes(std::string filename) {
     }
 }
 
-
 void GestorHorarios::list_sort_getcomp(int i, std::function<bool(const Estudante &, const Estudante &)> &cmp) {
     switch(i){
         case 0: cmp = [    ](const Estudante &p1, const Estudante &p2){ return p1.get_codigo() < p2.get_codigo(); }; break;
@@ -134,7 +133,6 @@ void GestorHorarios::list_filter_getvalid(int i, const std::string &str, std::fu
         default: throw std::invalid_argument("NUM outside range");
     }
 }
-
 
 void GestorHorarios::list_filter_getvalid(int i, const std::string &str, std::function<bool(const Estudante &)> &cmp) {
     switch(i) {
@@ -191,17 +189,9 @@ void GestorHorarios::list(std::vector<T> &v) const {
     }
 }
 
-bool GestorHorarios::isCompatible(Pedido &p, std::vector<Turma> &res) {
+bool GestorHorarios::isCompatible(Pedido &p) {
 
-    std::vector<Turma> t;
-    for(auto x : p.estudante->getHorario())
-        t.push_back(x);
-
-    for(auto x : p.get_a_remover())
-        t.erase(std::find(t.begin(), t.end(),x));
-
-    for(auto x : p.get_a_adicionar())
-        t.push_back(x);
+    std::vector<Turma> t = p.getCandidate();
 
     auto a = getAulas(t);
 
@@ -212,7 +202,7 @@ bool GestorHorarios::isCompatible(Pedido &p, std::vector<Turma> &res) {
         }
     }
 
-    res = t; return true;
+    return true;
 }
 
 std::vector<Aula> GestorHorarios::getAulas(const std::vector<Turma> &t) const{
@@ -278,14 +268,13 @@ int GestorHorarios::maxDifference(const std::vector<UCTurma> &v) const {
         if(v.at(i).getInscritos() < minElement)
             minElement = v.at(i).getInscritos();
     }
-
     return maxDiff;
 }
 
 void GestorHorarios::processPedido(Pedido &p) {
     std::vector<Turma> res;
 
-    if(canEnroll(p) && isCompatible(p, res)){
-        p.estudante->setHorario(res);
+    if(canEnroll(p) && isCompatible(p)){
+        p.estudante->setHorario(p.getCandidate());
     }
 }

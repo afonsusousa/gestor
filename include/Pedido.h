@@ -20,11 +20,14 @@ public:
     std::string get_codigo_estudante() const;
     std::vector<Turma> get_a_adicionar() const;
     std::vector<Turma> get_a_remover() const;
+    std::vector<Turma> getCandidate();
 
 private:
 
     std::vector<Turma> a_adicionar;
     std::vector<Turma> a_remover;
+
+
 };
 
 

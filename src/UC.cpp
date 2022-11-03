@@ -10,6 +10,6 @@ bool UC::operator<(const UC &u) const {
     return codigo < u.codigo;
 }
 
-void UC::addTurma(const UCTurma &uct) const{
+void UC::addTurma(UCTurma *uct) const{
     turmas.push_back(uct);
 }
