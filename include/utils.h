@@ -14,20 +14,62 @@
 
 namespace utils {
 
-    /**@brief*/
+    /**@brief removes spaces from left
+     * @param s string to process
+     * */
     void ltrim(std::string &s);
+
+    /**@brief removes spaces from right
+     * @param s string to process
+     * */
     void rtrim(std::string &s);
+
+    /**@brief removes spaces from either side of the string
+     * @param s string to process
+     * */
     void trim(std::string &s);
-    bool isCancel(std::string s);
+
+    /**@brief prints error
+    * @param s string to print
+    * */
     void error(const std::string &s);
 
+    /**@brief Filtra um vetor de acordo com um predicado
+     * @param v vetor a filtrar
+     * @param valid predicado
+     * @return vetor filtrado
+     * */
     template<class T, class Valid> std::vector<T> filter(const std::vector<T> &v, Valid valid);
+
+    /**@brief Ordena um vetor
+     * @brief Complexidade: O(nlogn)
+     * @param v Vetor a ordenar
+     * @param l Primeiro elemento do range
+     * @param r Elemento à direita do range
+     * @param comp Função de comparaçaõ
+     * */
     template<class T, class Compare> void mergesort(std::vector<T> &v, const size_t &l, const size_t &r, Compare comp);
 
+    /**@brief Recebe input
+    * @param msg Mensagem a imprimir ("shell")
+    * @param object Objeto para armazenar input
+    * @param is Input stream
+    * @param os Output stream
+    * */
     template<class T> bool input(const std::string &msg, T &object, std::istream &is, std::ostream &os);
-    template<class T, class Func> bool input(const std::string &msg, Func f , T &object, std::istream &is, std::ostream &os);
 
+    /**@brief Justifica à direita
+     * @param s string a justificar
+     * @param sz tamanho final do string
+     * @return string justificado
+     * */
     std::string ljust(std::string s, size_t sz);
+
+    /**@brief Justifica à direita
+     * @param s string a justificar
+     * @param sz tamanho final do string
+     * @return string justificado
+     * */
     std::string rjust(std::string s, size_t sz);
 
     template<class T, class Valid> std::vector<T> utils::filter(const std::vector<T> &v, Valid valid){
@@ -40,12 +82,6 @@ namespace utils {
         return ret;
     }
 
-    /**@brief Ordena um vetor
-     * @param v Vetor a ordenar
-     * @param l Primeiro elemento do range
-     * @param r Elemento à direita do range
-     * @param comp Função de comparaçaõ
-     * */
     template<class T, class Compare> void utils::mergesort(std::vector<T> &v, const size_t &l, const size_t &r, Compare comp){
         if(r-l <= 1) return;
         size_t m = l + (r-l)/2;
@@ -73,19 +109,13 @@ namespace utils {
      * */
     template<class T> void mergesort(std::vector<T> &v){ utils::mergesort(v, std::less<T>()); }
 
-    /**@brief Recebe input
-     * @param msg Mensagem a imprimir ("shell")
-     * @param object Objeto para armazenar input
-     * @param is Input stream
-     * @param os Output stream
-     * */
     template<class T> bool utils::input(const std::string &msg, T &object, std::istream &is, std::ostream &os) {
         std::string input;
         std::stringstream ss; ss.exceptions(std::stringstream::failbit | std::stringstream::badbit);
 
         while (true) {
             os << msg; std::getline(is, input); utils::trim(input);
-            if (utils::isCancel(input)) {
+            if (input == "cancel") {
                 os << "Operation cancelled.\n"; return false;
             }
             ss.clear(); ss.str(input);

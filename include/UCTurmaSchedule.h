@@ -25,6 +25,8 @@ public:
      * */
     void addAula(const Aula &a) const;
 
+    /**@brief Operator < overload
+     * */
     bool operator<(const UCTurmaSchedule &e) const;
 
 private:

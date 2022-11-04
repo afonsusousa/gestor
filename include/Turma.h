@@ -24,6 +24,8 @@ public:
      * */
     std::string getCodTurma() const;
 
+    /**@brief Operator == overload
+     * */
     bool operator==(const Turma& t);
 
     /** @brief Overload of operator<< */

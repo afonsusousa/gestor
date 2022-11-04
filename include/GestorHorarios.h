@@ -25,12 +25,38 @@ class GestorHorarios {
 public:
     GestorHorarios();
 
-    std::set<Estudante> estudantes;
-    std::set<UCTurmaSchedule> horario_turmas;
-    std::set<UCTurma> turmas;
-    std::queue<Pedido> pedidos;
+    /**@brief Inicia o Gestor, lendo ficheiros
+     */
+    void start();
+
+    /**@brief Imprime menu principal
+     * @return Falso no caso de algum erro
+     * */
+    bool menu();
+
+    /**@brief Fecha o Gestor, escrevendo ficheiros
+     */
+    void close();
 
 private:
+    /**@brief Todos os estudantes
+     * */
+    std::set<Estudante> estudantes;
+
+    /**@brief Todos os horarios de todas as turmas
+     * */
+    std::set<UCTurmaSchedule> horario_turmas;
+
+    /**@brief Todos as turmas
+     * */
+    std::set<UCTurma> turmas;
+
+    /**@brief Fila de pedidos
+     * */
+    std::queue<Pedido> pedidos;
+
+    /**@brief Clears the screen
+     * */
     void CLEAR() const;
 
     /** @brief Obter função de comparação entre UCTurmas
@@ -67,6 +93,7 @@ private:
 
     /** @brief Processa pedido
      * @param p Pedido a ser processado
+     * @return Se o pedido foi efetivado
      * */
     bool processPedido(Pedido &p);
 
@@ -83,12 +110,13 @@ private:
     bool canEnroll(const Pedido &p);
 
     /** @brief Analisa a diferença máxima entre no nº de inscritos em cada turma
+     * @brief complexidade O(n)
      * @param v Turmas
      * @return Diferença máxima
      * */
     int maxDifference(const std::vector<UCTurma> &v) const;
 
-    /** @brief Procura as aulas de um horário
+    /** @brief Obtém as aulas de um conjunto de turmas
      * @param t Horário (turmas)
      * @return Aulas do Horário
      * */
@@ -100,11 +128,10 @@ private:
      * */
     std::vector<UCTurma> getTurmas(std::string codUC);
 
-    /** @brief Esccolher estudante
-     * @return Estudante escolhido
+    /**@brief Escolher Turma de uma lista de turmas
+     * @param v lista de turmas
+     * @return Turma escolhida
      * */
-    const Estudante* escolherEstudante();
-
     Turma escolherTurma(std::vector<UCTurma> &v);
 
     /** @brief Esccolher UCTurma
@@ -122,11 +149,6 @@ private:
      * @return Pedido criado
      * */
     bool criarPedido(Pedido &p);
-
-    /**@brief Imprime menu principal
-     * @return Falso no caso de algum erro
-     * */
-    bool menu();
 
     /**@brief Imprime Menu de Listagens
      * return Falso no caso de algum erro
@@ -148,8 +170,19 @@ private:
      * */
     void read_classes(std::string filename);
 
+    /**@brief Escreve as UCs/Turmas num ficheiro
+     * @param filename Path do ficheiro
+     * */
     void write_ucs(std::string filename);
+
+    /**@brief Escreve as Aulas num ficheiro
+     * @param filename Path do ficheiro
+     * */
     void write_classes(std::string filename);
+
+    /**@brief Escreve os Alunos/turmas num ficheiro
+     * @param filename Path do ficheiro
+     * */
     void write_students(std::string filename);
 
     /**@brief Imprime uma lista de UCTurmas

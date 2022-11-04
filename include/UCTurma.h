@@ -11,10 +11,20 @@
 
 class UCTurma {
 private:
+    /**@brief Código da UC
+     * */
     std::string codUC;
+
+    /**@brief Código da Turma
+     * */
     std::string codTurma;
+
+    /**@brief N de estudantes inscritos na Turma
+     * */
     mutable int inscritos = 0;
 public:
+    /**@brief N max de estudantes que podem estar inscritos
+     * */
     int cap = 30;
 
     UCTurma();
@@ -46,9 +56,20 @@ public:
      * */
     int getInscritos() const;
 
+    /**@brief Operator < overload
+     * */
     bool operator<(const UCTurma &e) const;
+
+    /**@brief Operator > overload
+     * */
     bool operator>(const UCTurma &e) const;
+
+    /**@brief Operator == overload
+     * */
     bool operator==(const UCTurma &e) const;
+
+    /**@brief Operator << overload
+     * */
     friend std::ostream& operator<<(std::ostream &os, const UCTurma &n);
 };
 

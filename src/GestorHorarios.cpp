@@ -9,18 +9,19 @@
 #include <algorithm>
 #include "../include/GestorHorarios.h"
 
-GestorHorarios::GestorHorarios() {
+GestorHorarios::GestorHorarios() {}
+
+void GestorHorarios::start(){
     read_ucs("../data/classes_per_uc.csv");
     read_classes("../data/classes.csv");
     read_students("../data/students_classes.csv");
+}
 
-    menu();
-
+void GestorHorarios::close(){
     write_ucs("../data/classes_per_uc.csv");
     write_classes("../data/classes.csv");
     write_students("../data/students_classes.csv");
 }
-
 std::string GestorHorarios::prompt() const {
     std::cout << OPSTR;
     std::string ret;
@@ -63,7 +64,7 @@ void GestorHorarios::read_students(std::string filename) {
         if(it == turmas.end()) std::cout << 1 <<std::endl;
                 it->inscrever();
     }
-
+    file.close();
 }
 
 void GestorHorarios::read_ucs(std::string filename) {
@@ -86,6 +87,7 @@ void GestorHorarios::read_ucs(std::string filename) {
         turmas.insert(UCTurma(fields[0],
                               fields[1])); //for some reason a whitespace is being read after class code...
     }
+    file.close();
 }
 
 void GestorHorarios::read_classes(std::string filename) {
@@ -109,6 +111,8 @@ void GestorHorarios::read_classes(std::string filename) {
         Aula aula(Turma(fields[1], fields[0]),fields[2], std::stod(fields[3]),std::stod(fields[4]),fields[5]);
         it.first->addAula(aula);
     }
+
+    file.close();
 }
 
 
@@ -363,9 +367,12 @@ void GestorHorarios::write_classes(std::string filename) {
     file.open(filename, std::ofstream::out | std::ofstream::trunc);
 
     file << "ClassCode,UcCode,Weekday,Start,Duration,Type\n";
+
     for(auto u : turmas)
         for(auto a : horario_turmas.find(UCTurmaSchedule(u.getCodUC(), u.getCodTurma()))->get_horario())
             file << a << "\n";
+
+    file.close();
 }
 
 void GestorHorarios::write_students(std::string filename) {
@@ -375,6 +382,7 @@ void GestorHorarios::write_students(std::string filename) {
     file << "StudentCode,StudentName,UcCode,ClassCode\n";
     for(auto u : estudantes)
         file << u;
+    file.close();
 }
 
 

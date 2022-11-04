@@ -56,9 +56,16 @@ public:
      * */
     bool overlaps(const Aula &aula);
 
-
+    /**@brief Operator == overload
+     * */
     bool operator==(const Aula &aula) const;
+
+    /**@brief Operator < overload
+     * */
     bool operator<(const Aula &aula) const;
+
+    /**@brief Operator << overload
+     * */
     friend std::ostream& operator<<(std::ostream &os, const Aula &n);
 };
 

@@ -16,10 +16,6 @@ void utils::trim(std::string &s) {
     ltrim(s); rtrim(s);
 }
 
-bool utils::isCancel(std::string s) {
-    return s == "cancel";
-}
-
 void utils::error(const std::string &s){
     std::cerr << "Error: " << s << std::endl;
     wait();

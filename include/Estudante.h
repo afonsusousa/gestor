@@ -51,6 +51,8 @@ public:
      * */
     bool hasClass(const Turma &t) const;
 
+    /**@brief Operator << overload
+     * */
     friend std::ostream& operator<<(std::ostream &os, const Estudante &n);
 
 private:

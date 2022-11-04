@@ -4,30 +4,6 @@
 
 #include "GestorHorarios.h"
 
-const Estudante *GestorHorarios::escolherEstudante() {
-    std::vector<Estudante> temp;
-    for(auto x : estudantes) temp.push_back(x);
-
-    while (true) {
-        CLEAR(); print_list(temp);
-
-        std::vector<std::string> ids = utils::parse_command(prompt("Nº Estudante: "));
-
-        const Estudante * it = NULL;
-
-        if(estudantes.find(Estudante(ids[0])) != estudantes.end())
-            it = &(*estudantes.find(Estudante(ids[0])));
-
-        if (it == NULL) {
-            utils::error("Estudante não existe!");
-            continue;
-        } else {
-            return it;
-        }
-    }
-    return nullptr;
-}
-
 Turma GestorHorarios::escolherTurma(std::vector<UCTurma> &v){
 
     std::vector<UCTurma> temp;
@@ -37,7 +13,7 @@ Turma GestorHorarios::escolherTurma(std::vector<UCTurma> &v){
     while (true) {
         CLEAR();
         prints_list(temp);
-        std::vector<std::string> ids = utils::parse_command(prompt("(#):"));
+        std::vector<std::string> ids = utils::parse_command(prompt("(#) or \"back\"to return: "));
 
         if(ids[0] == "back") return {};
         if(ids.size() != 1) {
@@ -45,7 +21,7 @@ Turma GestorHorarios::escolherTurma(std::vector<UCTurma> &v){
             continue;
         }
 
-        int index = std::stoi(ids[0]);
+        int index; try { index = std::stoi(ids[0]);} catch(const std::invalid_argument &e){ utils::error("invalid code"); continue; }
 
         if(index > temp.size() - 1 || index < 0){
             utils::error("Out of range!");
@@ -65,17 +41,17 @@ const UCTurma *GestorHorarios::escolherUCTurma() {
     while (true) {
         CLEAR();
         prints_list(temp);
-        std::vector<std::string> ids = utils::parse_command(prompt("(#):"));
+        std::vector<std::string> ids = utils::parse_command(prompt("(#) or \"back\"to return:"));
 
-        if(ids[0] == "back") return NULL;
+        if(ids[0] == "back") return nullptr;
         if(ids.size() != 1) {
-            utils::error("Pick number:");
+            utils::error(" Numero:");
             continue;
         }
 
-        const UCTurma * it = NULL;
+        const UCTurma * it = nullptr;
 
-        int index = std::stoi(ids[0]);
+        int index; try { index = std::stoi(ids[0]);} catch(const std::invalid_argument &e){ utils::error("invalid code"); continue; }
 
         if(index > temp.size() - 1 || index < 0){
             utils::error("Out of range!");
@@ -85,7 +61,7 @@ const UCTurma *GestorHorarios::escolherUCTurma() {
                 it = &(*turmas.find(temp.at(index)));
         }
 
-        if (it == NULL) {
+        if (it == nullptr) {
             utils::error("Somehow a Turma não existe!");
             continue;
         } else {
@@ -110,7 +86,7 @@ const UCTurma *GestorHorarios::escolherUCTurma(const std::vector<Turma> &v) {
             continue;
         }
         const UCTurma * it = NULL;
-        int index = std::stoi(ids[0]);
+        int index; try { index = std::stoi(ids[0]);} catch(const std::invalid_argument &e){ utils::error("invalid code"); continue; }
 
         if(index > temp.size() - 1 || index < 0){
             utils::error("Out of range!");

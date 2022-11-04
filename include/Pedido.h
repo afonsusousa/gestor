@@ -15,12 +15,9 @@ public:
     Pedido(Estudante *p);
     Pedido(const Estudante *p, std::vector<Turma>, std::vector<Turma>);
 
-    const Estudante *estudante;
-
-    /**@brief Obter código do estudante
-     * @return Código do Estudante
+    /**@brief Estudante a cujo o Pedido é relativo
      * */
-    std::string get_codigo_estudante() const;
+    const Estudante *estudante;
 
     /**@brief Obter Turmas a serem adicionadas pelo pedido
      * @return Turmas
