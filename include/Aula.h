@@ -13,6 +13,8 @@ public:
     Aula();
     Aula(Turma t, std::string weekday, double start, double duration, std::string type);
 
+    /** @brief Representa dia da semana
+     * */
     enum weekday{
         Monday,
         Tuesday,
@@ -23,15 +25,41 @@ public:
         Sunday
     } typedef Day;
 
+    /** @brief Turma a que a aula corresponde
+     * */
     Turma turma;
+
+    /** @brief Dia da Semana
+     * */
     Day weekday;
+
+    /** @brief Hora de início
+     * */
     double start;
+
+    /** @brief Duração (em h)
+     * */
     double duration;
+
+    /** @brief Tipo de Aula
+     * */
     std::string type;
-    std::string day_string();
-    bool overlaps(const Aula &slot);
+
+    /** @brief Dia da semana
+     * @return Dia da Semana
+     * */
+    std::string day_string() const;
+
+    /** @brief Avalia sobreprosião de aula
+     * @param aula Aula a avaliar
+     * @return Se é sobreposta
+     * */
+    bool overlaps(const Aula &aula);
+
+
     bool operator==(const Aula &aula) const;
     bool operator<(const Aula &aula) const;
+    friend std::ostream& operator<<(std::ostream &os, const Aula &n);
 };
 
 

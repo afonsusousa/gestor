@@ -39,8 +39,9 @@ std::vector<Turma> Pedido::getCandidate() {
     return t;
 }
 
-void Pedido::add_to_remove(Turma &t) {
-    a_remover.push_back(t);
+bool Pedido::add_to_remove(Turma &t) {
+    if(estudante->hasClass(t)) { a_remover.push_back(t); return true;}
+    return false;
 }
 
 bool Pedido::remove_from_remove(Turma &t){

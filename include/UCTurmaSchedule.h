@@ -15,11 +15,32 @@ public:
     UCTurmaSchedule();
     UCTurmaSchedule(std::string coduc, std::string codt);
 
-    std::string codUC;
-    std::string codTurma;
-    mutable std::vector<Aula> horario;
+    /**@brief Obter horário
+     * @return Horário
+     * */
+    std::vector<Aula> get_horario() const;
+
+    /**@brief Adiciona aula
+     * @param a Aula a adicionar
+     * */
     void addAula(const Aula &a) const;
+
     bool operator<(const UCTurmaSchedule &e) const;
+
+private:
+
+    /**@brief Código da UC
+     * */
+    std::string codUC;
+
+    /**@brief Código da UC
+     * */
+    std::string codTurma;
+
+    /**@brief Horário
+     * */
+    mutable std::vector<Aula> horario;
+
 };
 
 

@@ -19,15 +19,37 @@ public:
 
     UCTurma();
     UCTurma(std::string codUC, std::string codTurma);
-    std::string getCodUC() const;
-    std::string getCodTurma() const;
-    int inscrever() const;
-    int desinscrever() const;
-    int getInscritos() const;
-    bool operator<(const UCTurma &e) const;
-    bool operator==(const UCTurma &e) const;
-
     UCTurma(Turma turma);
+
+    /**@brief Obter Código da UC
+     * @return Código da UC
+     * */
+    std::string getCodUC() const;
+
+    /**@brief Obter Código da Turma
+     * @return Código da Turma
+     * */
+    std::string getCodTurma() const;
+
+    /**@brief Incrementa o número de inscritos
+     * @return Número de Inscritos
+     * */
+    int inscrever() const;
+
+    /**@brief Desincrementa o número de inscritos
+     * @return Número de Inscritos
+     * */
+    int desinscrever() const;
+
+    /**@brief Obter o número de inscritos
+     * @return Número de Inscritos
+     * */
+    int getInscritos() const;
+
+    bool operator<(const UCTurma &e) const;
+    bool operator>(const UCTurma &e) const;
+    bool operator==(const UCTurma &e) const;
+    friend std::ostream& operator<<(std::ostream &os, const UCTurma &n);
 };
 
 

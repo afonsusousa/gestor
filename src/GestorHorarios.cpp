@@ -8,25 +8,17 @@
 #include <set>
 #include <algorithm>
 #include "../include/GestorHorarios.h"
-#include "../include/utils.h"
-
-
 
 GestorHorarios::GestorHorarios() {
     read_ucs("../data/classes_per_uc.csv");
     read_classes("../data/classes.csv");
     read_students("../data/students_classes.csv");
 
+    menu();
 
-
-    Pedido p = criarPedido();
-
-    std::cout << estudantes.begin()->getHorario().size() << std::endl;
-
-    processPedido(p);
-
-    std::cout << estudantes.begin()->getHorario().size() << std::endl;
-
+    write_ucs("../data/classes_per_uc.csv");
+    write_classes("../data/classes.csv");
+    write_students("../data/students_classes.csv");
 }
 
 std::string GestorHorarios::prompt() const {
@@ -63,8 +55,7 @@ void GestorHorarios::read_students(std::string filename) {
 
         Estudante estudante(fields[0], fields[1]);
 
-        Turma turma(fields[2],
-                    fields[3].substr(0,fields[3].size()-1)); //for some reason a whitespace is being read after class code...
+        Turma turma(fields[2], fields[3]); //for some reason a whitespace is being read after class code...
 
         auto es = estudantes.insert(estudante);
         es.first->addUCTurma(turma);
@@ -93,7 +84,7 @@ void GestorHorarios::read_ucs(std::string filename) {
         for (int i = 0; i < nfields; i++) getline(s, fields[i], ',');
 
         turmas.insert(UCTurma(fields[0],
-                              fields[1].substr(0,fields[1].size()-1))); //for some reason a whitespace is being read after class code...
+                              fields[1])); //for some reason a whitespace is being read after class code...
     }
 }
 
@@ -142,7 +133,7 @@ std::vector<Aula> GestorHorarios::getAulas(const std::vector<Turma> &t) const{
     std::vector<Aula> ret;
 
     for(auto x : t){
-        std::vector<Aula> a = horario_turmas.find(UCTurmaSchedule(x.getCodUC(), x.getCodTurma()))->horario;
+        std::vector<Aula> a = horario_turmas.find(UCTurmaSchedule(x.getCodUC(), x.getCodTurma()))->get_horario();
         for(auto h : a)
             ret.push_back(h);
     }
@@ -206,12 +197,187 @@ int GestorHorarios::maxDifference(const std::vector<UCTurma> &v) const {
     return maxDiff;
 }
 
-void GestorHorarios::processPedido(Pedido &p) {
+bool GestorHorarios::processPedido(Pedido &p) {
 
     if(canEnroll(p)){
+        for(auto x : p.get_a_remover()){
+            auto y = turmas.find(UCTurma(x));
+            if(y != turmas.end()) y->desinscrever();
+        }
+
+        for(auto x : p.get_a_adicionar()){
+            auto y = turmas.find(UCTurma(x));
+            if(y != turmas.end()) y->inscrever();
+        }
         p.estudante->setHorario(p.getCandidate());
+
+        return true;
+    }
+
+    return false;
+}
+
+bool GestorHorarios::list_menu() {
+    try {
+        while (true) {
+            CLEAR();
+            std::cout <<    "╒═════════════════════════════════════════════╕\n"
+                            "│                   Listas                    │\n"
+                            "╞═════════════════════════════════════════════╡\n"
+                            "│ Estudantes                              [1] │\n"
+                            "│ UCTurmas                                [2] │\n"
+                            "│ (back)                                  [3] │\n"
+                            "╘═════════════════════════════════════════════╛\n"
+                            "                                               \n";
+            // LOGIN PROCESS
+            std::string cmd; std::cout << "\n" << OPSTR; getline(std::cin, cmd);
+            std::vector<std::string> v = utils::parse_command(cmd);
+            if(v.size() != 1){
+                utils::error("Invalid operation.");
+                continue;
+            }
+
+            int operation;
+
+            try {
+                operation = std::stoi(v[0]);
+            } catch (std::invalid_argument &e) {
+                utils::error("Invalid operation.");
+                continue;
+            } catch (...) {
+                utils::error("Unkown error.");
+                continue;
+            }
+
+            switch (operation) {
+                case 1:
+                {
+                    std::vector<Estudante> temp;
+                    for(auto x : estudantes) temp.push_back(x);
+                    list(temp);
+                }
+                    break;
+                case 2:
+                {
+                    std::vector<UCTurma> temp;
+                    for(auto x : turmas) temp.push_back(x);
+                    list(temp);
+                }
+                    break;
+                case 3: return false;
+                default:
+                    utils::error("Invalid operation.");
+                    break;
+            }
+        }
+    } catch (std::exception &ex) {
+        utils::error(std::string("Unexpected error ") + ex.what());
+        return false;
+    } catch (...) {
+        utils::error("Unknown error");
+        return false;
     }
 }
+
+
+bool GestorHorarios::menu() {
+    try {
+        while (true) {
+            CLEAR();
+            std::cout <<    "╒═════════════════════════════════════════════╕\n"
+                            "│                GestorHorario                │\n"
+                            "╞═════════════════════════════════════════════╡\n"
+                            "│  Fazer Pedido                           [1] │\n"
+                            "│  Listagens                              [2] │\n"
+                            "│  Save                                   [3] │\n"
+                            "│  Exit                                   [4] │\n"
+                            "╘═════════════════════════════════════════════╛\n"
+                            "                                               \n";
+            // LOGIN PROCESS
+            std::string cmd; std::cout << "\n" << OPSTR; getline(std::cin, cmd);
+            std::vector<std::string> v = utils::parse_command(cmd);
+            if(v.size() != 1){
+                utils::error("Invalid operation.");
+                continue;
+            }
+
+            int operation;
+
+            try {
+                operation = std::stoi(v[0]);
+            } catch (std::invalid_argument &e) {
+                utils::error("Invalid operation.");
+                continue;
+            } catch (...) {
+                utils::error("Unkown error.");
+                continue;
+            }
+
+            switch (operation) {
+                case 1:
+                {
+                    std::vector<Estudante> temp;
+                    for(auto x : estudantes) temp.push_back(x);
+                    list(temp);
+                }
+                    break;
+                case 2:
+                    list_menu();
+                    break;
+                case 3:
+                    while(!pedidos.empty()){
+                        if(processPedido(pedidos.front())) {
+                            pedidos.pop();
+                        } else {
+                            std::cout << "Rejeitado: " << pedidos.front().estudante->get_codigo();
+                            pedidos.pop();
+                        }
+                    }
+                    break;
+                case 4: return false;
+                default:
+                    utils::error("Invalid operation.");
+                    break;
+            }
+        }
+    } catch (std::exception &ex) {
+        utils::error(std::string("Unexpected error ") + ex.what());
+        return false;
+    } catch (...) {
+        utils::error("Unknown error");
+        return false;
+    }
+}
+
+void GestorHorarios::write_ucs(std::string filename) {
+    std::ofstream file;
+    file.open(filename, std::ofstream::out | std::ofstream::trunc);
+
+    file << "UcCode,ClassCode\n";
+    for(auto u : turmas)
+        file << u << "\n";
+}
+
+void GestorHorarios::write_classes(std::string filename) {
+    std::ofstream file;
+    file.open(filename, std::ofstream::out | std::ofstream::trunc);
+
+    file << "ClassCode,UcCode,Weekday,Start,Duration,Type\n";
+    for(auto u : turmas)
+        for(auto a : horario_turmas.find(UCTurmaSchedule(u.getCodUC(), u.getCodTurma()))->get_horario())
+            file << a << "\n";
+}
+
+void GestorHorarios::write_students(std::string filename) {
+    std::ofstream file;
+    file.open(filename, std::ofstream::out | std::ofstream::trunc);
+
+    file << "StudentCode,StudentName,UcCode,ClassCode\n";
+    for(auto u : estudantes)
+        file << u;
+}
+
+
 
 
 

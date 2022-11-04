@@ -50,3 +50,13 @@ Estudante::Estudante(std::string codigo) : codigo(codigo) {
 void Estudante::setHorario(std::vector<Turma> t) const {
     horario = std::move(t);
 }
+
+std::ostream &operator<<(std::ostream &os, const Estudante &n) {
+    for(auto x : n.getHorario()){
+        os << n.get_codigo() << std::string(",")
+        << n.get_nome() << std::string(",")
+        << x.getCodUC() << std::string(",")
+        << x.getCodTurma() << std::string ("\n");
+    }
+    return os;
+}

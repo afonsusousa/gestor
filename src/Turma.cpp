@@ -23,3 +23,8 @@ bool Turma::operator==(const Turma &t) {
 Turma::Turma() {
 
 }
+
+std::ostream& operator<<(std::ostream &os, const Turma &n){
+    os << n.codUC << std::string(",") << n.codTurma;
+    return os;
+}

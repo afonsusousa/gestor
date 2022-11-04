@@ -8,7 +8,6 @@ const Estudante *GestorHorarios::escolherEstudante() {
     std::vector<Estudante> temp;
     for(auto x : estudantes) temp.push_back(x);
 
-
     while (true) {
         CLEAR(); print_list(temp);
 
@@ -16,7 +15,7 @@ const Estudante *GestorHorarios::escolherEstudante() {
 
         const Estudante * it = NULL;
 
-        if(estudantes.find(Estudante(ids[0]))!= estudantes.end())
+        if(estudantes.find(Estudante(ids[0])) != estudantes.end())
             it = &(*estudantes.find(Estudante(ids[0])));
 
         if (it == NULL) {
@@ -29,7 +28,35 @@ const Estudante *GestorHorarios::escolherEstudante() {
     return nullptr;
 }
 
-const UCTurma *GestorHorarios::escolherTurma() {
+Turma GestorHorarios::escolherTurma(std::vector<UCTurma> &v){
+
+    std::vector<UCTurma> temp;
+    for (auto x : v)
+        temp.push_back(x);
+
+    while (true) {
+        CLEAR();
+        prints_list(temp);
+        std::vector<std::string> ids = utils::parse_command(prompt("(#):"));
+
+        if(ids[0] == "back") return {};
+        if(ids.size() != 1) {
+            utils::error("Pick number:");
+            continue;
+        }
+
+        int index = std::stoi(ids[0]);
+
+        if(index > temp.size() - 1 || index < 0){
+            utils::error("Out of range!");
+            continue;
+        } else {
+            return Turma(temp.at(index).getCodUC(), temp.at(index).getCodTurma());
+        }
+    }
+}
+
+const UCTurma *GestorHorarios::escolherUCTurma() {
 
     std::vector<UCTurma> temp;
     for(auto x : turmas) temp.push_back(x);
@@ -37,7 +64,7 @@ const UCTurma *GestorHorarios::escolherTurma() {
 
     while (true) {
         CLEAR();
-        print_list(temp);
+        prints_list(temp);
         std::vector<std::string> ids = utils::parse_command(prompt("(#):"));
 
         if(ids[0] == "back") return NULL;
@@ -67,14 +94,14 @@ const UCTurma *GestorHorarios::escolherTurma() {
     }
 }
 
-const UCTurma *GestorHorarios::escolherTurma(const std::vector<Turma> &v) {
+const UCTurma *GestorHorarios::escolherUCTurma(const std::vector<Turma> &v) {
     std::vector<Turma> temp;
     for (auto x : v)
         temp.push_back(x);
 
     while (true) {
         CLEAR();
-        print_list(temp);
+        prints_list(temp);
         std::vector<std::string> ids = utils::parse_command(prompt("(#):"));
 
         if(ids[0] == "back") return NULL;
@@ -102,10 +129,7 @@ const UCTurma *GestorHorarios::escolherTurma(const std::vector<Turma> &v) {
     }
 }
 
-Pedido GestorHorarios::criarPedido() {
-
-    Pedido p(escolherEstudante(), {}, {});
-
+bool GestorHorarios::criarPedido(Pedido &p) {
 
     while(true) {
 
@@ -114,19 +138,19 @@ Pedido GestorHorarios::criarPedido() {
         CLEAR();
         print_list(temp);
 
-        std::string answer, prompt = p.estudante->get_codigo() + ":\tadicionar(a)|remover(r): ";
+        std::string answer, prompt = "(" + p.estudante->get_codigo() + "):\n(a)dicionar | (r)emover | (b)ack( | (s)ave > ";
         utils::input(prompt, answer, std::cin, std::cout);
 
         CLEAR();
 
         // ADD CLASSES TO PEDIDO
 
-        if (answer == "a") {
+        if (answer == "a" || answer == "adicionar") {
             const UCTurma *turma;
             do {
                 Pedido temp_p = p;
 
-                turma = escolherTurma();
+                turma = escolherUCTurma();
                 if (turma == NULL) break;
 
                 Turma t(turma->getCodUC(), turma->getCodTurma());
@@ -146,12 +170,12 @@ Pedido GestorHorarios::criarPedido() {
         }
 
         //REMOVE CLASSES FROM PEDIDO
-        if (answer == "r") {
+        if (answer == "r" || answer == "remover") {
 
             const UCTurma *turma;
 
             do {
-                turma = escolherTurma(temp);
+                turma = escolherUCTurma(temp);
                 if (turma == NULL) break;
 
                 Turma t(turma->getCodUC(), turma->getCodTurma());
@@ -161,9 +185,11 @@ Pedido GestorHorarios::criarPedido() {
             } while (true);
         }
 
-        if(answer == "save") break;
+        if(answer == "b" || answer == "back") return true;
+        if(answer == "s" || answer == "save") break;
     }
 
-    return p;
+    return false;
 
 }
+

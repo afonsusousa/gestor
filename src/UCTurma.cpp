@@ -17,6 +17,14 @@ bool UCTurma::operator<(const UCTurma &e) const {
     }
 }
 
+bool UCTurma::operator>(const UCTurma &e) const {
+    if (codUC != e.codUC) {
+        return codUC > e.codUC;
+    } else {
+        return codTurma > e.codTurma;
+    }
+}
+
 std::string UCTurma::getCodUC() const{
     return codUC;
 }
@@ -46,3 +54,10 @@ int UCTurma::desinscrever() const {
     inscritos--;
     return inscritos;
 }
+
+std::ostream &operator<<(std::ostream &os, const UCTurma &n) {
+    os << n.codUC << std::string (",")
+    << n.codTurma;
+    return os;
+}
+

@@ -8,7 +8,9 @@
 #include <iostream>
 
 void GestorHorarios::CLEAR() const {
-
+    int ev;
+    if((ev = CLEAR_MACRO()))
+        throw std::system_error(ev, std::system_category());
 }
 
 void GestorHorarios::print_list(std::vector<Estudante> &v) {
@@ -42,7 +44,7 @@ void GestorHorarios::print_list(std::vector<UCTurma> &v) {
         std::cout << "│ "
                   << utils::ljust((std::string)t.getCodUC()                  ,10) << "\t │ "
                   << utils::ljust((std::string)t.getCodTurma()                     ,20) << "\t│ "
-                  << utils::rjust(std::to_string(t.getInscritos())     ,16) << "│ (" << i << ")\n";
+                  << utils::rjust(std::to_string(t.getInscritos())     ,16) << "│\n";
         i++;
     }
     std::cout << "╘════════════════╧══════════════════════╧═════════════════╛\n"
@@ -51,6 +53,46 @@ void GestorHorarios::print_list(std::vector<UCTurma> &v) {
 
 
 void GestorHorarios::print_list(std::vector<Turma> &v) {
+    int i = 0;
+    std::cout << "\n"
+                 " TURMAS \n"
+                 "╒════════════════╤══════════════════════╕\n"
+                 "│ Código UC [0]  │ Código Turma [1]     │\n"
+                 "╞════════════════╪══════════════════════╡\n";
+
+    for(const Turma t:v){
+        std::cout << "│ "
+                  << utils::ljust((std::string)t.getCodUC()                  ,10) << "\t │ "
+                  << utils::ljust((std::string)t.getCodTurma()                     ,20) << "\t│\n";
+        i++;
+    }
+    std::cout << "╘════════════════╧══════════════════════╛\n"
+              << std::flush;
+}
+
+
+void GestorHorarios::prints_list(std::vector<UCTurma> &v) {
+    int i = 0;
+
+    std::cout << "\n"
+                 " TURMAS \n"
+                 "╒════════════════╤══════════════════════╤═════════════════╕\n"
+                 "│ Código UC [0]  │ Código Turma [1]     │ N Inscritos  [2]│\n"
+                 "╞════════════════╪══════════════════════╪═════════════════╡\n";
+
+    for(const UCTurma t:v){
+        std::cout << "│ "
+                  << utils::ljust((std::string)t.getCodUC()                  ,10) << "\t │ "
+                  << utils::ljust((std::string)t.getCodTurma()                     ,20) << "\t│ "
+                  << utils::rjust(std::to_string(t.getInscritos())     ,16) << "│ (" << i << ")\n";
+        i++;
+    }
+    std::cout << "╘════════════════╧══════════════════════╧═════════════════╛\n"
+              << std::flush;
+}
+
+
+void GestorHorarios::prints_list(std::vector<Turma> &v) {
     int i = 0;
     std::cout << "\n"
                  " TURMAS \n"

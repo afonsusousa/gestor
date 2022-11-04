@@ -20,3 +20,8 @@ void UCTurmaSchedule::addAula(const Aula &a) const {
     horario.push_back(a);
 }
 
+
+std::vector<Aula> UCTurmaSchedule::get_horario() const {
+    return horario;
+}
+
