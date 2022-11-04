@@ -6,17 +6,32 @@
 #define TRABALHO_SLOT_H
 
 #include <string>
+#include "Turma.h"
 
 class Aula {
 public:
     Aula();
-    Aula(std::string weekday, double start, double duration, std::string type);
-    std::string weekday;
+    Aula(Turma t, std::string weekday, double start, double duration, std::string type);
+
+    enum weekday{
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday,
+        Saturday,
+        Sunday
+    } typedef Day;
+
+    Turma turma;
+    Day weekday;
     double start;
     double duration;
     std::string type;
+    std::string day_string();
     bool overlaps(const Aula &slot);
-    bool operator==(const Aula &aula);
+    bool operator==(const Aula &aula) const;
+    bool operator<(const Aula &aula) const;
 };
 
 

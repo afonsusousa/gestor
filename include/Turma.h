@@ -12,8 +12,8 @@ class Turma {
 public:
     Turma();
     Turma(std::string coduc, std::string codturma);
-    std::string getCodUC();
-    std::string getCodTurma();
+    std::string getCodUC() const;
+    std::string getCodTurma() const;
     bool operator==(const Turma& t);
 private:
     std::string codUC;

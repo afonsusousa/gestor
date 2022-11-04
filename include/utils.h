@@ -95,6 +95,10 @@ namespace utils {
             }
         }
     }
+
+    std::vector<std::string> parse_command(const std::string &s);
+
+    void wait();
 };
 
 

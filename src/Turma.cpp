@@ -8,14 +8,18 @@ Turma::Turma(std::string coduc, std::string codturma) : codUC(coduc), codTurma(c
 
 }
 
-std::string Turma::getCodUC() {
+std::string Turma::getCodUC() const{
     return codUC;
 }
 
-std::string Turma::getCodTurma() {
+std::string Turma::getCodTurma() const{
     return codTurma;
 }
 
 bool Turma::operator==(const Turma &t) {
     return codUC == t.codUC && codTurma == t.codTurma;
+}
+
+Turma::Turma() {
+
 }

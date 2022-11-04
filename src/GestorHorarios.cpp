@@ -7,9 +7,9 @@
 #include <vector>
 #include <set>
 #include <algorithm>
-#include <functional>
 #include "../include/GestorHorarios.h"
 #include "../include/utils.h"
+
 
 
 GestorHorarios::GestorHorarios() {
@@ -17,8 +17,30 @@ GestorHorarios::GestorHorarios() {
     read_classes("../data/classes.csv");
     read_students("../data/students_classes.csv");
 
-    print_list(estudantes);
 
+
+    Pedido p = criarPedido();
+
+    std::cout << estudantes.begin()->getHorario().size() << std::endl;
+
+    processPedido(p);
+
+    std::cout << estudantes.begin()->getHorario().size() << std::endl;
+
+}
+
+std::string GestorHorarios::prompt() const {
+    std::cout << OPSTR;
+    std::string ret;
+    std::getline(std::cin, ret);
+    return ret;
+}
+
+std::string GestorHorarios::prompt(std::string s) const {
+    std::cout << s;
+    std::string ret;
+    std::getline(std::cin, ret);
+    return ret;
 }
 
 void GestorHorarios::read_students(std::string filename) {
@@ -93,53 +115,12 @@ void GestorHorarios::read_classes(std::string filename) {
         for (int i = 0; i < nfields; i++) getline(s, fields[i], ',');
 
         auto it = horario_turmas.insert(UCTurmaSchedule(fields[1], fields[0]));
-        Aula aula(fields[2], std::stod(fields[3]),std::stod(fields[4]),fields[5]);
+        Aula aula(Turma(fields[1], fields[0]),fields[2], std::stod(fields[3]),std::stod(fields[4]),fields[5]);
         it.first->addAula(aula);
     }
 }
 
-template<class T>
-void GestorHorarios::list(std::vector<T> &v) const {
-    const std::vector<T> original = v;
-    while(true){
-        // CLEAR();
-        //print_list(v, t);
-        // list_commands<T>(t);
-        std::vector<std::string> s = {"sort", "2"};
-        if(s.size() >= 1){
-            //====SORT==========================================================
-            if(s[0] == "sort"){
-                if(s.size() != 2){ utils::error("wrong number of arguments"); continue; }
-                int i; try{ i = stoi(s[1]); } catch(const std::invalid_argument &e){ utils::error("invalid NUM"); continue; }
-                std::function<bool(const T&, const T&)> cmp;
-                try{
-                    list_sort_getcomp(i, cmp);
-                    utils::mergesort(v,cmp);
-                }catch(const std::invalid_argument &e){ utils::error(e.what()); }
-            }else
-                //====SEARCH========================================================
-            if(s[0] == "search"){
-                if(s.size() != 3){ utils::error("wrong number of arguments"); continue; }
-                int i; try{ i = stoi(s[1]); } catch(const std::invalid_argument &e){ utils::error("invalid NUM"); continue; }
-                std::function<bool(const T&)> cmp;
-                try{
-                    list_filter_getvalid(i, s[2], cmp);
-                    v = utils::filter(v,cmp);
-                }catch(const std::invalid_argument &e){ utils::error(e.what()); }
-            }else
-                //====RESET=========================================================
-            if(s[0] == "reset"){
-                if(s.size() != 1) utils::error("wrong number of arguments");
-                else              v = original;
-            }else
-                //====BACK==========================================================
-            if(s[0] == "back"){
-                if(s.size() != 1) utils::error("wrong number of arguments");
-                else              return;
-            }else utils::error("unrecognized command");
-        }
-    }
-}
+
 
 bool GestorHorarios::isCompatible(Pedido &p) {
 
@@ -179,13 +160,15 @@ bool GestorHorarios::canEnroll(const Pedido &p) {
         if(t.getInscritos()+1 >= t.cap) return false;
 
         std::vector<UCTurma> aux = getTurmas(turma.getCodUC());
+
         int maxdiff = maxDifference(aux);
 
-        int i = std::find(aux.begin(), aux.end(), UCTurma(turma))->inscrever();
+        std::find(aux.begin(), aux.end(),(UCTurma(turma)))->inscrever();
 
         if(maxdiff >= 4){
-            if(maxDifference(aux) > maxdiff)
+            if(maxDifference(aux) > maxdiff) {
                 return false;
+            }
         }
     }
 
@@ -198,11 +181,11 @@ std::vector<UCTurma> GestorHorarios::getTurmas(std::string codUC) {
 
     auto is_UC = [codUC](const UCTurma &t) {return t.getCodUC() == codUC;};
 
-    auto it = std::find_if(turmas.begin(), turmas.end(), is_UC);
+    auto first = std::find_if(turmas.begin(), turmas.end(), is_UC);
+    auto last = std::find_if(turmas.rbegin(), turmas.rend(), is_UC);
 
-    do {
-        ret.push_back(*it);
-    } while(is_UC(*(++it)));
+    for(auto x = first; x->getCodTurma() != last->getCodTurma(); x++)
+        ret.push_back(*x);
 
     return ret;
 }
@@ -224,15 +207,16 @@ int GestorHorarios::maxDifference(const std::vector<UCTurma> &v) const {
 }
 
 void GestorHorarios::processPedido(Pedido &p) {
-    std::vector<Turma> res;
 
-    if(canEnroll(p) && isCompatible(p)){
+    if(canEnroll(p)){
         p.estudante->setHorario(p.getCandidate());
     }
 }
 
 
 
-void GestorHorarios::print_list(std::vector<UCTurma>) {
 
-}
+
+
+
+

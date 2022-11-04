@@ -4,6 +4,7 @@
 
 #include "../include/Estudante.h"
 #include <algorithm>
+#include <functional>
 
 Estudante::Estudante(std::string codigo, std::string nome) : codigo(codigo), nome(nome){}
 
@@ -37,7 +38,9 @@ std::string Estudante::get_nome() const {
 }
 
 bool Estudante::hasClass(const Turma &t) const{
-    return std::find(horario.begin(), horario.end(), t) != horario.end();
+
+    return std::find_if(horario.begin(), horario.end(),
+                        [t] (const Turma &p) {return t.getCodUC() == p.getCodUC() && t.getCodTurma() == p.getCodTurma();}) != horario.end();
 }
 
 Estudante::Estudante(std::string codigo) : codigo(codigo) {

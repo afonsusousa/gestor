@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "Pedido.h"
 
-Pedido::Pedido(Estudante *p, std::vector<Turma> a, std::vector<Turma> r) : estudante(p), a_adicionar(a), a_remover(r){}
+Pedido::Pedido(const Estudante *p, std::vector<Turma> a, std::vector<Turma> r) : estudante(p), a_adicionar(a), a_remover(r){}
 
 
 
@@ -28,13 +28,34 @@ std::vector<Turma> Pedido::getCandidate() {
     for (auto x: estudante->getHorario())
         t.push_back(x);
 
+    for (auto x: a_adicionar)
+        t.push_back(x);
+
     for (auto x: a_remover) {
         auto it = std::find(t.begin(), t.end(), x);
         if (it != t.end()) t.erase(it);
     }
 
-    for (auto x: a_adicionar)
-        t.push_back(x);
-
     return t;
+}
+
+void Pedido::add_to_remove(Turma &t) {
+    a_remover.push_back(t);
+}
+
+bool Pedido::remove_from_remove(Turma &t){
+    auto x = std::find(a_remover.begin(), a_remover.end(), t);
+    if(x != a_remover.end()) {
+        a_remover.erase(x);
+        return true;
+    }
+    return false;
+}
+
+void Pedido::add_to_add(Turma &t) {
+    a_adicionar.push_back(t);
+}
+
+void Pedido::pop_add() {
+    a_adicionar.pop_back();
 }

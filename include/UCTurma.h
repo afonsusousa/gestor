@@ -15,6 +15,8 @@ private:
     std::string codTurma;
     mutable int inscritos = 0;
 public:
+    int cap = 30;
+
     UCTurma();
     UCTurma(std::string codUC, std::string codTurma);
     std::string getCodUC() const;
@@ -26,8 +28,6 @@ public:
     bool operator==(const UCTurma &e) const;
 
     UCTurma(Turma turma);
-
-    int cap = 30;
 };
 
 

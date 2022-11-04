@@ -15,5 +15,5 @@ add_executable(gestor
         src/Estudante.cpp
         src/Aula.cpp
         src/GestorHorarios_display.cpp
-        src/GestorHorarios_lists.cpp)
+        src/GestorHorarios_lists.cpp src/GestorHorarios_cli.cpp)
 include_directories("include")

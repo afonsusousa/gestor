@@ -22,7 +22,7 @@ bool utils::isCancel(std::string s) {
 
 void utils::error(const std::string &s){
     std::cerr << "Error: " << s << std::endl;
-    //wait();
+    wait();
 }
 
 std::string utils::ljust(std::string s, size_t sz){
@@ -37,4 +37,28 @@ std::string utils::rjust(std::string s, size_t sz){
     if(s.size() < sz) s = std::string(sz-s.size(), ' ') + s;
     if(s.size() > sz)s = s.substr(0,sz-3) + "...";
     return s;
+}
+
+std::vector<std::string> utils::parse_command(const std::string &s){
+    std::vector<std::string> ret;
+    std::string t = "";
+    char quote = ' ';
+    for(const char &c:s){
+        if(c == '\"' || c == '\''){
+            if     (quote == ' ') quote =  c;
+            else if(quote ==  c ) quote = ' ';
+            else                  t    += c;
+        }else if(c == ' '){
+            if(t != "") ret.push_back(t);
+            t = "";
+        }else t += c;
+    }
+    if(t != "") ret.push_back(t);
+    return ret;
+}
+
+void utils::wait(){
+    std::string b;
+    std::cout << "(Press 'Enter' to continue)";
+    std::getline(std::cin, b);
 }
