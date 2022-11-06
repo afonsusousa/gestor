@@ -74,6 +74,7 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="class_pedido-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Pedido Class Reference</div></div>
 </div><!--header-->
@@ -87,9 +88,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7ac3957670b8022b8d6f4343a3f362b9"><td class="memItemLeft" align="right" valign="top"><a id="a7ac3957670b8022b8d6f4343a3f362b9" name="a7ac3957670b8022b8d6f4343a3f362b9"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Pedido</b> (const <a class="el" href="class_estudante.html">Estudante</a> *p, std::vector&lt; <a class="el" href="class_turma.html">Turma</a> &gt;, std::vector&lt; <a class="el" href="class_turma.html">Turma</a> &gt;)</td></tr>
 <tr class="separator:a7ac3957670b8022b8d6f4343a3f362b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac458b6b402dcd36995dd7fe92115c0f5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pedido.html#ac458b6b402dcd36995dd7fe92115c0f5">get_codigo_estudante</a> () const</td></tr>
-<tr class="memdesc:ac458b6b402dcd36995dd7fe92115c0f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obter código do estudante.  <a href="class_pedido.html#ac458b6b402dcd36995dd7fe92115c0f5">More...</a><br /></td></tr>
-<tr class="separator:ac458b6b402dcd36995dd7fe92115c0f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa48093fdd00a638deec669dc1033d1b2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class_turma.html">Turma</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pedido.html#aa48093fdd00a638deec669dc1033d1b2">get_a_adicionar</a> () const</td></tr>
 <tr class="memdesc:aa48093fdd00a638deec669dc1033d1b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obter Turmas a serem adicionadas pelo pedido.  <a href="class_pedido.html#aa48093fdd00a638deec669dc1033d1b2">More...</a><br /></td></tr>
 <tr class="separator:aa48093fdd00a638deec669dc1033d1b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,6 +115,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>pop_add</b> ()</td></
 Public Attributes</h2></td></tr>
 <tr class="memitem:ae45300bfe350f00c3c73468f22701270"><td class="memItemLeft" align="right" valign="top"><a id="ae45300bfe350f00c3c73468f22701270" name="ae45300bfe350f00c3c73468f22701270"></a>
 const <a class="el" href="class_estudante.html">Estudante</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>estudante</b></td></tr>
+<tr class="memdesc:ae45300bfe350f00c3c73468f22701270"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_estudante.html">Estudante</a> a cujo o <a class="el" href="class_pedido.html">Pedido</a> é relativo. <br /></td></tr>
 <tr class="separator:ae45300bfe350f00c3c73468f22701270"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
@@ -129,6 +128,12 @@ std::vector&lt; <a class="el" href="class_turma.html">Turma</a> &gt;&#160;</td><
 std::vector&lt; <a class="el" href="class_turma.html">Turma</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>a_remover</b></td></tr>
 <tr class="memdesc:aad76dd3a6e7faf36026a9d5cfc3a07d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lista de turmas a serem removidas do horário. <br /></td></tr>
 <tr class="separator:aad76dd3a6e7faf36026a9d5cfc3a07d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:aa2ddac06639c0686c694267154699369"><td class="memItemLeft" align="right" valign="top"><a id="aa2ddac06639c0686c694267154699369" name="aa2ddac06639c0686c694267154699369"></a>
+std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="class_pedido.html">Pedido</a> &amp;n)</td></tr>
+<tr class="separator:aa2ddac06639c0686c694267154699369"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="aba663ec76303676a07ed29d5f1a011ea" name="aba663ec76303676a07ed29d5f1a011ea"></a>
@@ -221,26 +226,6 @@ std::vector&lt; <a class="el" href="class_turma.html">Turma</a> &gt;&#160;</td><
 
 <p>Obter Turmas a serem removidas pelo pedido. </p>
 <dl class="section return"><dt>Returns</dt><dd>Turmas </dd></dl>
-
-</div>
-</div>
-<a id="ac458b6b402dcd36995dd7fe92115c0f5" name="ac458b6b402dcd36995dd7fe92115c0f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac458b6b402dcd36995dd7fe92115c0f5">&#9670;&#160;</a></span>get_codigo_estudante()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string Pedido::get_codigo_estudante </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Obter código do estudante. </p>
-<dl class="section return"><dt>Returns</dt><dd>Código do <a class="el" href="class_estudante.html">Estudante</a> </dd></dl>
 
 </div>
 </div>

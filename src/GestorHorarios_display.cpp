@@ -116,8 +116,8 @@ void GestorHorarios::print_schedule(const std::vector<Aula> &v) {
     utils::mergesort(vec);
 
     int day = -1;
-
-    std::cout << std::endl;
+    CLEAR();
+    std::cout << "Horário:\n" << std::endl;
 
     for(auto a : vec){
         if(a.weekday > day) {

@@ -19,7 +19,7 @@
 #include "utils.h"
 #include <set>
 
-const std::string OPSTR = "Operation$ ";
+const std::string OPSTR = "$ ";
 
 class GestorHorarios {
 public:

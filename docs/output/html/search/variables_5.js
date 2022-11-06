@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['start_0',['start',['../class_aula.html#a929fb615f8f3e1afa24da2c94c0db636',1,'Aula']]]
+  ['inscritos_0',['inscritos',['../class_u_c_turma.html#a18afb52376b6d5cdcf801aea6d03f8a2',1,'UCTurma']]]
 ];

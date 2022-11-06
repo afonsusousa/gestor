@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['weekday_0',['weekday',['../class_aula.html#ad8af56b6bb6a07d64beb3ef8ebad676a',1,'Aula']]]
+  ['pedidos_0',['pedidos',['../class_gestor_horarios.html#a4111e6d57d51d5739824e829c1b09dba',1,'GestorHorarios']]]
 ];

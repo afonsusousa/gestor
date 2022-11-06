@@ -230,14 +230,15 @@ bool GestorHorarios::list_menu() {
                             "╞═════════════════════════════════════════════╡\n"
                             "│ Estudantes                              [1] │\n"
                             "│ UCTurmas                                [2] │\n"
-                            "│ (back)                                  [3] │\n"
+                            "│ <--                                     [3] │\n"
                             "╘═════════════════════════════════════════════╛\n"
                             "                                               \n";
-            // LOGIN PROCESS
-            std::string cmd; std::cout << "\n" << OPSTR; getline(std::cin, cmd);
+
+            std::string cmd; std::cout << "\n" << "(#):"; getline(std::cin, cmd);
             std::vector<std::string> v = utils::parse_command(cmd);
+
             if(v.size() != 1){
-                utils::error("Invalid operation.");
+                utils::error("Inválido!");
                 continue;
             }
 
@@ -246,7 +247,7 @@ bool GestorHorarios::list_menu() {
             try {
                 operation = std::stoi(v[0]);
             } catch (std::invalid_argument &e) {
-                utils::error("Invalid operation.");
+                utils::error("Inválido!");
                 continue;
             } catch (...) {
                 utils::error("Unkown error.");
@@ -256,21 +257,19 @@ bool GestorHorarios::list_menu() {
             switch (operation) {
                 case 1:
                 {
-                    std::vector<Estudante> temp;
-                    for(auto x : estudantes) temp.push_back(x);
+                    std::vector<Estudante> temp; std::copy(estudantes.begin(), estudantes.end(), std::back_inserter(temp));
                     list(temp);
                 }
                     break;
                 case 2:
                 {
-                    std::vector<UCTurma> temp;
-                    for(auto x : turmas) temp.push_back(x);
+                    std::vector<UCTurma> temp; std::copy(turmas.begin(), turmas.end(), std::back_inserter(temp));
                     list(temp);
                 }
                     break;
                 case 3: return false;
                 default:
-                    utils::error("Invalid operation.");
+                    utils::error("Inválido!");
                     break;
             }
         }
@@ -293,15 +292,16 @@ bool GestorHorarios::menu() {
                             "╞═════════════════════════════════════════════╡\n"
                             "│  Fazer Pedido                           [1] │\n"
                             "│  Listagens                              [2] │\n"
-                            "│  Save                                   [3] │\n"
+                            "│  Save (processar pedidos)               [3] │\n"
                             "│  Exit                                   [4] │\n"
                             "╘═════════════════════════════════════════════╛\n"
                             "                                               \n";
-            // LOGIN PROCESS
-            std::string cmd; std::cout << "\n" << OPSTR; getline(std::cin, cmd);
+
+            std::string cmd; std::cout << "\n" << "(#):"; getline(std::cin, cmd);
             std::vector<std::string> v = utils::parse_command(cmd);
+
             if(v.size() != 1){
-                utils::error("Invalid operation.");
+                utils::error("Inválido!");
                 continue;
             }
 
@@ -310,7 +310,7 @@ bool GestorHorarios::menu() {
             try {
                 operation = std::stoi(v[0]);
             } catch (std::invalid_argument &e) {
-                utils::error("Invalid operation.");
+                utils::error("Inválido!");
                 continue;
             } catch (...) {
                 utils::error("Unkown error.");
@@ -320,8 +320,7 @@ bool GestorHorarios::menu() {
             switch (operation) {
                 case 1:
                 {
-                    std::vector<Estudante> temp;
-                    for(auto x : estudantes) temp.push_back(x);
+                    std::vector<Estudante> temp; std::copy(estudantes.begin(), estudantes.end(), std::back_inserter(temp));
                     list(temp);
                 }
                     break;
@@ -333,14 +332,14 @@ bool GestorHorarios::menu() {
                         if(processPedido(pedidos.front())) {
                             pedidos.pop();
                         } else {
-                            std::cout << "Rejeitado: " << pedidos.front().estudante->get_codigo();
+                            std::cout << "Rejeitado:\n" << pedidos.front();
                             pedidos.pop();
                         }
                     }
                     break;
                 case 4: return false;
                 default:
-                    utils::error("Invalid operation.");
+                    utils::error("Inválido!");
                     break;
             }
         }

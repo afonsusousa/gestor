@@ -23,6 +23,7 @@ void GestorHorarios::get_filter(int i, const std::string &str, std::function<boo
     switch(i) {
         case 0 : cmp = [str](const UCTurma &p) { return (std::string(p.getCodUC()).find(str) != std::string::npos); }; break;
         case 1 : cmp = [str](const UCTurma &p) { return (std::string(p.getCodTurma()).find(str) != std::string::npos); }; break;
+        case 2 : cmp = [str](const UCTurma &p) { return (std::to_string(p.getInscritos()).find(str) != std::string::npos); }; break;
         default: throw std::invalid_argument("NUM outside range");
     }
 }
@@ -53,12 +54,13 @@ void GestorHorarios::get_filter(const UCTurma *trm, std::function<bool(const Est
 template<> void GestorHorarios::list_commands<Estudante>(){
     std::cout << "\n"
               << "COMMANDS:\n\n"
-              << "    sort \033[4mNUM\033[0m            Ordenar por propriedade \033[4mNUM\033[0m [0-2].\n"
-              << "    sortd \033[4mNUM\033[0m            Ordenar por propriedade (descendente) \033[4mNUM\033[0m [0-2].\n"
-              << "    search \033[4mNUM\033[0m \"\033[4mSTR\033[0m\"    Restringir list a elementos que contenham \033[4mSTR\033[0m na propriedade \033[4mNUM\033[0m [0-2].\n"
+              << "    sort \033[4mNUM\033[0m             Ordenar por propriedade \033[4mNUM\033[0m [0-2]\n"
+              << "    sortd \033[4mNUM\033[0m            Ordenar por propriedade (descendente) \033[4mNUM\033[0m [0-2]\n"
+              << "    search \033[4mNUM\033[0m \"\033[4mSTR\033[0m\"     Restringir list a elementos que contenham \033[4mSTR\033[0m na propriedade \033[4mNUM\033[0m [0-2]\n"
               << "    searh_turma          Selecionar turma e filtrar\n"
+              << "    horario \033[4mNUM\033[0m          Imprimir horario do estudante \033[4mNUM\033[0m \n"
               << "    select \033[4mNUM\033[0m           Selecionar  estudante e criar pedido \033[4mNUM\033[0m [Nº Estudante]\n"
-              << "    reset               Limpar critérios.\n"
+              << "    reset                Limpar critérios\n"
               << "    back                \n";
     std::cout << std::endl;
 }
@@ -67,10 +69,10 @@ template<> void GestorHorarios::list_commands<UCTurma>(){
     std::cout << "\n"
               << "COMMANDS:\n\n"
               << "    sort \033[4mNUM\033[0m            Ordenar por propriedade \033[4mNUM\033[0m [0-2] (1 == 0)\n"
-              << "    sortd \033[4mNUM\033[0m            Ordenar por propriedade (descendente) \033[4mNUM\033[0m [0-2] (1 == 0)\n"
-              << "    search \033[4mNUM\033[0m \"\033[4mSTR\033[0m\"    Restringir list a elementos que contenham \033[4mSTR\033[0m na propriedade \033[4mNUM\033[0m [0-2].\n"
-              << "    horario             Selecionar turma e imprimir horario \033[4mSTR\033[0m\n"
-              << "    reset               Limpar critérios.\n"
+              << "    sortd \033[4mNUM\033[0m           Ordenar por propriedade (descendente) \033[4mNUM\033[0m [0-2] (1 == 0)\n"
+              << "    search \033[4mNUM\033[0m \"\033[4mSTR\033[0m\"    Restringir list a elementos que contenham \033[4mSTR\033[0m na propriedade \033[4mNUM\033[0m [0-2]\n"
+              << "    horario             Selecionar turma e imprimir horario \n"
+              << "    reset               Limpar critérios\n"
               << "    back                \n";
     std::cout << std::endl;
 }
@@ -172,13 +174,23 @@ void GestorHorarios::list(std::vector<Estudante> &v){
                     v = utils::filter(v,cmp);
                 }catch(const std::invalid_argument &e){ utils::error(e.what()); }
             }else
+                if(s[0] == "horario"){
+
+                    if(s.size() != 2){ utils::error("wrong number of arguments"); continue; }
+                    int i; try{ i = stoi(s[1]); } catch(const std::invalid_argument &e){ utils::error("invalid code"); continue; }
+                    const std::vector<Turma> aulas;
+                    auto x = estudantes.find(Estudante(s[1]));
+                    if(x != estudantes.end()) {
+                        print_schedule(getAulas(x->getHorario()));
+                    } else utils::error("Estudante inválido!");
+            }else
             if(s[0] == "select"){
                 if(s.size() != 2){ utils::error("wrong number of arguments"); continue; }
                 int i; try{ i = stoi(s[1]); } catch(const std::invalid_argument &e){ utils::error("invalid code"); continue; }
                 auto x = estudantes.find(Estudante(s[1]));
                 if(x != estudantes.end()) {
                     Pedido p(&(*x), {}, {});
-                    if(!criarPedido(p)) pedidos.push(p);
+                    if(!criarPedido(p)) { pedidos.push(p); return; };
                 }
             }
             else

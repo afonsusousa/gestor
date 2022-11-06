@@ -60,3 +60,19 @@ void Pedido::add_to_add(Turma &t) {
 void Pedido::pop_add() {
     a_adicionar.pop_back();
 }
+
+std::ostream &operator<<(std::ostream &os, const Pedido &n) {
+    os << n.estudante->get_codigo() << std::string(":\n");
+
+    os << std::string("\tA remover:\n");
+    for(auto x : n.get_a_remover()){
+        os << std::string("\t") << x.getCodUC() << x.getCodTurma() << std::string("\n");
+    }
+
+    os << std::string("\tA adicionar:\n");
+    for(auto x : n.get_a_adicionar()){
+        os << std::string("\t") << x.getCodUC() << x.getCodTurma() << std::string("\n");
+    }
+    
+    return os;
+}

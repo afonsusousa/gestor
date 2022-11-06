@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['horario_0',['horario',['../class_estudante.html#a32bb5112d997e6de3d893f8bf07b317b',1,'Estudante::horario()'],['../class_u_c_turma_schedule.html#a3fd52097177aae9023303890a98c0e40',1,'UCTurmaSchedule::horario()']]]
+  ['estudante_0',['estudante',['../class_pedido.html#ae45300bfe350f00c3c73468f22701270',1,'Pedido']]],
+  ['estudantes_1',['estudantes',['../class_gestor_horarios.html#ad98bf10ee784a76608fe0c38c2b63f50',1,'GestorHorarios']]]
 ];

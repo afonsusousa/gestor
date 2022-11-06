@@ -54,6 +54,7 @@ public:
      * */
     bool remove_from_remove(Turma &t);
 
+    friend std::ostream &operator<<(std::ostream &os, const Pedido &n);
 
 private:
 
