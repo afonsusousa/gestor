@@ -124,7 +124,7 @@ bool GestorHorarios::isCompatible(Pedido &p) {
     auto a = getAulas(t);
 
     for(int i = 0; i < a.size(); i++){
-        for(int j = i+1; j < a.size()-1; j++){
+        for(int j = i+1; j < a.size(); j++){
             if(a.at(i).overlaps(a.at(j)) && a.at(i).type == a.at(j).type)
                 return false;
         }
