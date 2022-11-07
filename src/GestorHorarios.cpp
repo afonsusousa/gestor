@@ -216,6 +216,8 @@ bool GestorHorarios::processPedido(Pedido &p) {
         }
         p.estudante->setHorario(p.getCandidate());
 
+        std::cout << "Processado:\n" << p << std::endl;
+        utils::wait();
         return true;
     }
 

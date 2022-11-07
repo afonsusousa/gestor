@@ -64,14 +64,14 @@ void Pedido::pop_add() {
 std::ostream &operator<<(std::ostream &os, const Pedido &n) {
     os << n.estudante->get_codigo() << std::string(":\n");
 
-    os << std::string("\tA remover:\n");
+    os << std::string("\tRemovidas:\t");
     for(auto x : n.get_a_remover()){
-        os << std::string("\t") << x.getCodUC() << x.getCodTurma() << std::string("\n");
+        os << std::string("\t") << x.getCodUC()  << std::string("/") << x.getCodTurma() << std::string("\n");
     }
 
-    os << std::string("\tA adicionar:\n");
+    os << std::string("\tAdicionadas:\n");
     for(auto x : n.get_a_adicionar()){
-        os << std::string("\t") << x.getCodUC() << x.getCodTurma() << std::string("\n");
+        os << std::string("\t") << x.getCodUC() << std::string("/") << x.getCodTurma() << std::string("\n");
     }
     
     return os;
