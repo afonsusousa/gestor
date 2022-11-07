@@ -113,7 +113,6 @@ void GestorHorarios::list(std::vector<UCTurma> &v){
                 }catch(const std::invalid_argument &e){ utils::error(e.what()); }
             }else
                 if(s[0] == "horario"){
-
                     Turma turma = escolherTurma(v);
                     auto aulas = getAulas({turma});
                     print_schedule(aulas);
@@ -183,6 +182,7 @@ void GestorHorarios::list(std::vector<Estudante> &v){
                     if(x != estudantes.end()) {
                         print_schedule(getAulas(x->getHorario()));
                     } else utils::error("Estudante inválido!");
+                    utils::wait();
             }else
             if(s[0] == "select"){
                 if(s.size() != 2){ utils::error("wrong number of arguments"); continue; }
