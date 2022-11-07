@@ -156,7 +156,7 @@ bool GestorHorarios::criarPedido(Pedido &p) {
 
                 Turma t(turma->getCodUC(), turma->getCodTurma());
                 temp.erase(std::find(temp.begin(), temp.end(),t));
-                if(!p.remove_from_remove(t)) p.add_to_remove(t);
+                if(!p.remove_from_add(t)) p.add_to_remove(t);
 
             } while (true);
         }

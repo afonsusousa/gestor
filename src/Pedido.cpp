@@ -44,10 +44,10 @@ bool Pedido::add_to_remove(Turma &t) {
     return false;
 }
 
-bool Pedido::remove_from_remove(Turma &t){
-    auto x = std::find(a_remover.begin(), a_remover.end(), t);
-    if(x != a_remover.end()) {
-        a_remover.erase(x);
+bool Pedido::remove_from_add(Turma &t) {
+    auto x = std::find(a_adicionar.begin(), a_adicionar.end(), t);
+    if(x != a_adicionar.end()) {
+        a_adicionar.erase(x);
         return true;
     }
     return false;

@@ -52,7 +52,7 @@ public:
     /**@brief Remove turma da lista de remoção
      * @param t Turma
      * */
-    bool remove_from_remove(Turma &t);
+    bool remove_from_add(Turma &t);
 
     friend std::ostream &operator<<(std::ostream &os, const Pedido &n);
 

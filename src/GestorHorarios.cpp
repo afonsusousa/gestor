@@ -162,6 +162,7 @@ bool GestorHorarios::canEnroll(const Pedido &p) {
 
         if(maxdiff >= 4){
             if(maxDifference(aux) > maxdiff) {
+                std::find(aux.begin(), aux.end(),(UCTurma(turma)))->desinscrever();
                 return false;
             }
         }
